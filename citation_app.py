@@ -54,8 +54,9 @@ def get_clip_data(sapi_url):
 prompt = """
         Attached below is a json structured data object for a historical record transcription.
         Can you format and create a citation to academic structure and standards for this document?
-        The reponse should include 3 different citation formats, and each citation should include the fullest possible reference data,
+        The reponse should include 3 different academic citation formats, and each citation should include the fullest possible reference data,
         including any repository or archive series data and reference numbers.
+        In addition, can you also add a genealogy style citation - as described by Elizabeth Shown Mills, in "Evidence Explained: Citing History Sources from Artifacts to Cyberspace"
         The access date should be {}.
         The reference URL should be {}
 
