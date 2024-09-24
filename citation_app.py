@@ -1,3 +1,6 @@
+## NB - largely cannibalised (in haste) from the clipping description app. Hence some odd naming conventions etc.
+
+
 # streamlit
 import streamlit as st
 import html
@@ -24,6 +27,7 @@ creds = get_creds()
 ai_key = creds['openai_key_cb']
 client = OpenAI(api_key=ai_key)
 
+today = datetime.today()
 
 if 'transcript_url' not in st.session_state:
     st.session_state.transcript_url = ''
@@ -52,7 +56,7 @@ prompt = """
         Can you format and create a citation to academic structure and standards for this document?
         The reponse should include 3 different citation formats, and each citation should include the fullest possible reference data,
         including any repository or archive series data and reference numbers.
-        The access date should be 1 October 2024.
+        The access date should be {}.
         The reference URL should be {}
 
         {}
@@ -134,11 +138,11 @@ st.title('Transcript Citation - Test tool')
 #st.write('HELLO')
 
 output_url = 'http://www.google.com'
-st.markdown("""
+#st.markdown("""
 ###
-##### If you want to look at previously created citations - take a look in here:
-""")
-st.write(output_url)
+##### [NOT YET WORKING _ IGNORE] If you want to look at previously created citations - take a look in here:
+#""")
+#st.write(output_url)
 
 
 st.markdown("""
@@ -154,7 +158,7 @@ if st.session_state.transcript_url:
     upp_id, sapi_url = get_sapi_url(st.session_state.transcript_url)
     st.write(upp_id, sapi_url)
     sapi_info = (get_clip_data(sapi_url))
-    citation_prompt = prompt.format(st.session_state.transcript_url, sapi_info)
+    citation_prompt = prompt.format(today, st.session_state.transcript_url, sapi_info)
     #st.write(citation_prompt)
 
 
