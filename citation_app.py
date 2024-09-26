@@ -25,7 +25,7 @@ from utils import get_creds
 #setup stuff
 creds = get_creds()
 
-ai_key = creds['openai_key_cb']
+ai_key = creds['openai_key_citapp']
 client = OpenAI(api_key=ai_key)
 
 today = datetime.today()
@@ -213,14 +213,14 @@ if st.session_state.transcript_url:
         ####
         ##### Default prompt used:""")
         st.text(prompt_text)
-        citation_prompt = prompt.format(today, st.session_state.transcript_url, sapi_info)
+        citation_prompt = prompt.format(today.date(), st.session_state.transcript_url, sapi_info)
     elif prompt_choice == "Write my own":
         st.markdown('##### Amend / write your own prompt below (for expert use)')
         st.markdown('For reference - here is the default prompt:')
         st.text(prompt_text)
         st.session_state.prompt_input = st.text_area('Write your prompt:')
         alt_prompt = st.session_state.prompt_input + prompt_data
-        citation_prompt = alt_prompt.format(today, st.session_state.transcript_url, sapi_info)
+        citation_prompt = alt_prompt.format(today.date(), st.session_state.transcript_url, sapi_info)
 
 
     show_prompt = st.button('Show me the prompt you will be using', key='show_p')
@@ -286,3 +286,9 @@ st.markdown("""
 
 st.write('Last 12 citation requests:')
 st.dataframe(st.session_state.citation_df.tail(12))
+
+st.markdown("""
+###
+##### Full citation request data """)
+st.write('The *Full* history of requests & responses is here:')
+st.write('http://fh1-donut02.dun.fh:8571')
