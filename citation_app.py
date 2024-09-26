@@ -147,23 +147,6 @@ def get_cost(usage, model=model):
 st.title('Transcript Citation - Test tool')
 
 
-
-output_url = 'http://www.google.com'
-#st.markdown("""
-###
-##### [NOT YET WORKING _ IGNORE] If you want to look at previously created citations - take a look in here:
-#""")
-#st.write(output_url)
-
-
-# use this approach for offering option to change prompt:
-# https://docs.streamlit.io/develop/api-reference/widgets/st.text_input
-# or perhaps use text_area:
-# https://docs.streamlit.io/develop/api-reference/widgets/st.text_area
-
-
-
-
 st.markdown("""
 ###
 ##### If you want to create a new citation - enter the transcript URL below
