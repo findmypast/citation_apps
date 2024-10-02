@@ -91,8 +91,8 @@ prompt_data = """
 
 prompt = prompt_text+prompt_data
 
-#model = "gpt-4o"
-model = "gpt-4o-mini"
+model = "gpt-4o-2024-08-06"
+#model = "gpt-4o-mini"
 
 st.cache_data()
 def call_chatgpt_for_citation(p, model=model):
@@ -128,7 +128,10 @@ def get_cost(usage, model=model):
     input_tokens = usage.prompt_tokens
     output_tokens = usage.completion_tokens
     total_tokens = usage.total_tokens
-    cost_dict = {'gpt-4o':{'input':5.00, 'output':15.00}, 'gpt-4o-mini':{'input':0.150, 'output':0.60}}   #pricing at 19/7/24
+    cost_dict = {'gpt-4o':{'input':2.50, 'output':10.00},  # based on change of default to gpt-4o-2024-08-06 on 2/10/24
+                 'gpt-4o-mini':{'input':0.150, 'output':0.60},
+                 'gpt-4o-2024-08-06':{'input':2.50, 'output':10.00}
+                 }   #pricing at 02/10/24
     input_token_cost = cost_dict[model]['input']
     output_token_cost = cost_dict[model]['output']
     input_price = input_token_cost/1000000  #$5.00 per 1M tokens
@@ -180,7 +183,7 @@ if st.session_state.transcript_url:
     ##### Model and prompt choices""")
 
     model = st.radio('Which ChatGPT model do you want to use?',
-                      ['gpt-4o', 'gpt-4o-mini'])
+                      ['gpt-4o-2024-08-06', 'gpt-4o-mini'])
 
 
 
