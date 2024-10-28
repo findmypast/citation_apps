@@ -1,0 +1,21 @@
+URL:The URL for the transcription
+citationType:The source type for the citation (Primary, Secondary)
+archive:The source archive
+achivalReference:The archive reference
+folio:The folio number / achivalReference
+page:The page number / reference
+firstName:The first name(s) of the subject
+lastName:The last name of the subject
+eventYear:The year of the event
+birthYear:The birth year of the subject
+deathYear:The death year of the subject
+eventPlace:The place of the *event*
+birthPlace:The place of birth of the subject
+author:The author of the document
+publicationYear:The publication year of the document
+publicationPlace:The publication place of the document
+publisher:The publisher of the document
+title:The title of the document
+articleNumber:Article number
+journalNumber:Journal number
+journalIssue:Journal issue
