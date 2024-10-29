@@ -1,6 +1,7 @@
-## NB - largely cannibalised (in haste) from the clipping description app. Hence some odd naming conventions etc.
+## NB -
 
-import pandas as pd
+# pandas
+import pandas as pd  # don't need?
 
 # streamlit
 import streamlit as st
@@ -8,19 +9,16 @@ from datetime import datetime
 
 import json
 import requests
-import glob
+#import glob
 
 # local util for creds
 from utils import get_creds, get_cdo_struct
 
-
-
 #setup stuff
 creds = get_creds()
-
 cdo_struct = get_cdo_struct()
-
 today = datetime.today()
+
 
 if 'transcript_url' not in st.session_state:
     st.session_state.transcript_url = ''
@@ -33,8 +31,7 @@ if 'cdo' not in st.session_state:
 
 if 'filename' not in st.session_state:
     st.session_state.filename = ''
-
-
+#
 
 #st.write(st.session_state.prompt_text_user)
 
