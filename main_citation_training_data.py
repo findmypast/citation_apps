@@ -11,7 +11,8 @@ import streamlit as st
 
 
 pg = st.navigation([st.Page('create_citation_training_data.py'),
-                    st.Page('add_to_citations_already_started.py')
+                    st.Page('add_to_citations_already_started.py'),
+                    st.Page('stats_collation.py')
                         ])
 pg.run()
 

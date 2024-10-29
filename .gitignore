@@ -4,3 +4,4 @@ data/citation_df.pkl
 .ipynb_checkpoints/citation_app-checkpoint.py
 /data
 __pycache__/utils.cpython-311.pyc
+/.idea
