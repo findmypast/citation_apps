@@ -31,13 +31,11 @@ if 'cdo' not in st.session_state:
 
 if 'filename' not in st.session_state:
     st.session_state.filename = ''
-#
 
 #st.write(st.session_state.prompt_text_user)
 
-#functions
+### FUNCTIONS
 
-#scrape URL for title
 st.cache_data()
 def get_clip_data(sapi_url):
     response = requests.get(sapi_url)
@@ -83,6 +81,13 @@ def proc(**kwargs):
     write_json_file(st.session_state.cdo, filename=st.session_state.filename)
 
 
+def proc_ok(**kwargs):
+    st.write(st.session_state[kwargs['approve']])
+    st.session_state.cdo["admin_info"][kwargs['approve']] = st.session_state[kwargs['approve']]
+    write_json_file(st.session_state.cdo, filename=st.session_state.filename)
+    return
+
+
 def get_filename(td):
     retval = td['Id'].replace('/','_')
     return retval
@@ -118,6 +123,12 @@ def set_initial_knowns():
     if 'birthYear' not in st.session_state.cdo.keys():
         try:
             st.session_state.cdo["birthYear"] = transcript_ref_dict['sapi_info']['d']['results'][0]['YearOfBirth']
+        except:
+            pass
+
+    if 'admin_info' not in st.session_state.cdo.keys():
+        try:
+            st.session_state.cdo["admin_info"] = {'sha_ok':False, 'fmp_ok':False}
         except:
             pass
 
@@ -174,8 +185,6 @@ if st.session_state.transcript_url:
     set_initial_knowns()
 
 
-
-
     # default citation type
     if "citationType" not in st.session_state.cdo.keys():
         st.session_state.cdo["citationType"] = 'Primary'
@@ -213,3 +222,9 @@ if st.session_state.transcript_url:
                 st.write(f":orange[{st.session_state.cdo[k]}]")
             except:
                 pass
+
+    st.write('#### Approval / completion of training data CDO')
+    st.checkbox('Complete for SHA purposes', key='sha_ok', on_change=proc_ok,
+                                    kwargs={'approve':'sha_ok'})
+    st.checkbox('Complete for FMP purposes', key='fmp_ok', on_change=proc_ok,
+                                    kwargs={'approve': 'fmp_ok'})
