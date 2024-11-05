@@ -61,23 +61,10 @@ def submit():
             st.session_state[k] = ''
 
 
-#def field_enter(**kwargs):
-#    st.write('changing')
-#    st.write(kwargs['field'])
-#    arg = kwargs['field']
-#    st.write(st.session_state.input[arg])
-#    st.session_state.cdo[k] = st.session_state.input[k].replace('"', '')
-#    st.session_state.input[k] = st.session_state.cdo[k]
-#    #st.session_state.cdo[k] = st.session_state.cdo[k].replace('test', 'TEST')
-#    st.write(st.session_state.cdo[k])
-#    return
-
-
 def proc(**kwargs):
     arg = kwargs['field']
-    #t.write(st.session_state[arg])#.strip('"'))
     st.session_state.cdo[arg] = st.session_state[arg].strip('"')
-    #st.write(st.session_state[arg])
+    st.write(st.session_state[arg])
     write_json_file(st.session_state.cdo, filename=st.session_state.filename)
 
 
@@ -104,25 +91,38 @@ def set_initial_knowns():
     #set the direct matches in CDO - for now
     if "URL" not in st.session_state.cdo.keys():
         st.session_state.cdo["URL"] = transcript_ref_dict['fmp_link']
+        st.session_state.url =  st.session_state.cdo["URL"]
 
     if 'title' not in st.session_state.cdo.keys():
         st.session_state.cdo["title"] = transcript_ref_dict['DatasetName']
+        st.session_state["title"] = st.session_state.cdo["title"]
 
     if 'lastName' not in st.session_state.cdo.keys():
         try:
             st.session_state.cdo["lastName"] = transcript_ref_dict['sapi_info']['d']['results'][0]['LastName']
+            st.session_state["lastName"] = st.session_state.cdo["lastName"]
         except:
             pass
 
     if 'firstName' not in st.session_state.cdo.keys():
         try:
             st.session_state.cdo["firstName"] = transcript_ref_dict['sapi_info']['d']['results'][0]['FirstName']
+            st.session_state["firstName"] = st.session_state.cdo["firstName"]
+        except:
+            pass
+
+
+    if 'eventYear' not in st.session_state.cdo.keys():
+        try:
+            st.session_state.cdo["eventYear"] = str(transcript_ref_dict['sapi_info']['d']['results'][0]['EventYear'])
+            st.session_state["eventYear"] = st.session_state.cdo["eventYear"]
         except:
             pass
 
     if 'birthYear' not in st.session_state.cdo.keys():
         try:
-            st.session_state.cdo["birthYear"] = transcript_ref_dict['sapi_info']['d']['results'][0]['YearOfBirth']
+            st.session_state.cdo["birthYear"] = str(transcript_ref_dict['sapi_info']['d']['results'][0]['YearOfBirth'])
+            st.session_state["birthYear"] = st.session_state.cdo["birthYear"]
         except:
             pass
 
@@ -201,11 +201,10 @@ if st.session_state.transcript_url:
 
 
     for k,v in cdo_struct.items():
-    #    st.write(k,v)
-        if  k in st.session_state.cdo.keys():
-            placeholder = st.session_state.cdo[k]
-        else:
-            placeholder = v
+
+        if k not in st.session_state.cdo.keys():
+            st.session_state.cdo[k] = ''
+            st.session_state[k] = ''
 
         if k == 'citationType':
             st.selectbox(k, options=['Primary', 'Secondary'], index=0, key=k,
@@ -215,8 +214,16 @@ if st.session_state.transcript_url:
             except:
                 pass
         else:
-            st.text_input(k, placeholder=placeholder, key=k, on_change=proc,
+            if st.session_state[k] == '':
+                #st.write('empty session state k')
+                st.text_input(k, placeholder=v, key=k, on_change=proc,
                                             kwargs={'field':k}, help='tooltip')
+            else:
+                #st.write('populated session state k')
+                #st.write(st.session_state.cdo[k])
+                #st.write(st.session_state[k])
+                st.text_input(k, key=k, on_change=proc, value=st.session_state[k],
+                              kwargs={'field': k}, help='tooltip')
             try:
                 text = st.session_state.cdo[k]
                 st.write(f":orange[{st.session_state.cdo[k]}]")

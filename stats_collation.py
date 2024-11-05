@@ -12,18 +12,12 @@ from utils import get_creds, get_cdo_struct
 
 #setup stuff
 creds = get_creds()
-
 cdo_struct = get_cdo_struct()
-
 today = datetime.today()
-
 cdo_dir = './data/training_cdo/'
-
 
 if 'cdo_dict' not in st.session_state:
     st.session_state.cdo_dict = {}
-
-
 
 ### FUNCTIONS
 
@@ -60,25 +54,16 @@ def write_json_file(object, path):
         outfile.write(json_object)
 
 
-
-
-####### Main
-st.write('### VERY basic WIP - Getting data into a DF')
-
+#### MAIN
+st.write('### Summary of training CDOs created / in progress')
 st.session_state.id_path_dict = get_history_and_make_dict()
-
-#st.write(st.session_state.id_path_dict)
-
-
 
 for jp, id in st.session_state.id_path_dict.items():
     st.session_state.cdo_dict[id] = read_json_file(jp)
 
 st.json(st.session_state.cdo_dict, expanded=False)
 
-
 cdo_df_input_list = []
-
 for k, jso in st.session_state.cdo_dict.items():
     row_tup = (k,
                jso['citationType'],
@@ -86,13 +71,34 @@ for k, jso in st.session_state.cdo_dict.items():
                jso['source_json']['DatasetName'],
                jso['source_json']['RecordMetadataId'],
                jso['source_json']['SourceCategory'],
-               jso['source_json']['SourceCollection'])
+               jso['source_json']['SourceCollection'],
+               jso['admin_info']['sha_ok'],
+               jso['admin_info']['fmp_ok'])
     cdo_df_input_list.append(row_tup)
 
-
-#st.write(cdo_df_input_list)
-
-columns = ['upp_id', 'citationType', 'title_from_CDO', 'DatasetName', 'RMID', 'SourceCategory', 'SourceCollection']
+columns = ['upp_id', 'citationType', 'title_from_CDO', 'DatasetName', 'RMID', 'SourceCategory', 'SourceCollection',
+           'sha_ok', 'fmp_ok']
 st.session_state.cdo_df = pd.DataFrame(cdo_df_input_list, columns=columns)
 
-st.write(st.session_state.cdo_df)
+# lower case all text - to simplify grouping etc.
+text_cols = columns[:-2]
+for col in text_cols:
+    st.session_state.cdo_df[col] = st.session_state.cdo_df[col].apply(str.lower)
+
+st.write('### All data')
+st.dataframe(st.session_state.cdo_df)
+
+st.write('### Grouped by DatasetName')
+df = (st.session_state.cdo_df.groupby('DatasetName').agg({'upp_id':'count'}))
+df = df.rename(columns={'upp_id':'count_of_records'})
+st.dataframe(df)
+
+st.write('### Grouped by SourceCategory')
+df = (st.session_state.cdo_df.groupby('SourceCategory').agg({'upp_id':'count'}))
+df = df.rename(columns={'upp_id':'count_of_records'})
+st.dataframe(df)
+
+st.write('### Grouped by Sub-category')
+df = (st.session_state.cdo_df.groupby('SourceCollection').agg({'upp_id':'count'}))
+df = df.rename(columns={'upp_id':'count_of_records'})
+st.dataframe(df)

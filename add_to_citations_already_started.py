@@ -40,8 +40,11 @@ def get_history_and_make_dict():
     id_path_dict = {x:x.split('/')[-1][:-5] for x in cdo_list}
     id_admin_dict = {}
     for k in id_path_dict.keys():
-        js = read_json_file(k)
-        id_admin_dict[k] = js['admin_info']
+        try:
+            js = read_json_file(k)
+            id_admin_dict[k] = js['admin_info']
+        except:
+            id_admin_dict[k] = {}
     return (id_path_dict, id_admin_dict)
 
 
