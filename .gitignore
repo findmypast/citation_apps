@@ -6,3 +6,6 @@ data/citation_df.pkl
 __pycache__/utils.cpython-311.pyc
 /.idea
 /__pycache__
+.DS_Store
+data/.DS_Store
+/data
