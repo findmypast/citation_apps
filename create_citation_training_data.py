@@ -214,7 +214,7 @@ if st.session_state.transcript_url:
             except:
                 pass
         else:
-            if st.session_state[k] == '':
+            if st.session_state.cdo[k] == '':
                 #st.write('empty session state k')
                 st.text_input(k, placeholder=v, key=k, on_change=proc,
                                             kwargs={'field':k}, help='tooltip')
@@ -222,7 +222,7 @@ if st.session_state.transcript_url:
                 #st.write('populated session state k')
                 #st.write(st.session_state.cdo[k])
                 #st.write(st.session_state[k])
-                st.text_input(k, key=k, on_change=proc, value=st.session_state[k],
+                st.text_input(k, key=k, on_change=proc, value=st.session_state.cdo[k],
                               kwargs={'field': k}, help='tooltip')
             try:
                 text = st.session_state.cdo[k]

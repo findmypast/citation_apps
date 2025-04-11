@@ -11,6 +11,7 @@ import streamlit as st
 
 
 pg = st.navigation([st.Page('create_citation_training_data.py'),
+                    st.Page('dataset_sampling.py'),
                     st.Page('add_to_citations_already_started.py'),
                     st.Page('stats_collation.py')
                         ])
@@ -19,5 +20,5 @@ pg.run()
 
 #st.write("# Welcome to Streamlit! 👋")
 
-st.sidebar.success("Select an app")
+#st.sidebar.success("Select an app")
 #st.markdown('#### Choose an app')
